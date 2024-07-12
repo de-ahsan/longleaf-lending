@@ -1,0 +1,25 @@
+<%= form_with model: @loan_request, local: true, url: loan_requests_path do |form| %>
+  <div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <div class="mb-6">
+        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div class="bg-green-500 rounded-full" style="height: 2rem; width: <%= progress_bar_width(@loan_request.current_step) %>"></div>
+        </div>
+        <div class="flex justify-between text-xs mt-2">
+          <%= render_steps(@loan_request.current_step) %>
+        </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <h2 class="mt-6 text-2xl font-bold">Loan Request</h2>
+      </div>
+      <%= render_step_form(form, @loan_request.current_step) %>
+      <div class="mt-8 flex justify-between">
+        <% if @loan_request.current_step != '1' %>
+          <%= form.submit "Back", name: "back_button", class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded" %>
+        <% end %>
+        <%= form.submit @loan_request.last_step? ? "Submit" : "Next", class: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    </div>
+  </div>
+<% end %>
