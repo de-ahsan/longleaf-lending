@@ -3,7 +3,7 @@
 >
 	<div class="absolute bg-black opacity-60 inset-0 z-0"></div>
   <div class="w-full sm:w-6/12 h-[35rem] space-y-8 p-10 bg-white rounded-xl shadow-lg z-10">
-    <%= form_with model: @loan_request, local: true, url: loan_requests_path do |form| %>
+    <%= form_with model: @loan_request, local: true, data: { controller: "loan-request-form", loan_request_form_current_step_value: @loan_request.current_step.to_i } do |form| %>
       <div class="flex flex-col">
         <div>
           <div class="mb-6">
@@ -15,17 +15,88 @@
             </div>
           </div>
 
-          <div class="text-center mb-8">
-            <h2 class="mt-6 text-2xl font-bold">Loan Request</h2>
-          </div>
-          <%= render_step_form(form, @loan_request.current_step) %>
-          <div class="mt-8 flex justify-between">
-            <% if @loan_request.current_step != '1' %>
-              <%= form.submit "Back", name: "back_button", class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded" %>
-            <% end %>
-            <%= form.submit @loan_request.last_step? ? "Submit" : "Next", class: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" %>
-          </div>
+      <div class="text-center mb-8">
+        <h2 class="mt-6 text-2xl font-bold">Loan Request</h2>
+      </div>
+
+      <div data-target="loan-request-form.step">
+        <div class="mb-4">
+          <label for="address" class="block text-sm font-medium text-gray-700">Target Property*</label>
+          <small>Address, City, State, & Zip for your target property</small>
+          <%= form.text_field :address, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <%= error_messages_for(:address, @loan_request) %>
         </div>
+      </div>
+
+      <div data-target="loan-request-form.step" class="hidden">
+        <div class="mb-4">
+          <label for="loan_term" class="block text-sm font-medium text-gray-700">Loan Term*</label>
+          <small>How many months do you want the loan for (up to 12)?</small>
+          <%= form.number_field :loan_term, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true, min: '0', max: '12' %>
+          <%= error_messages_for(:loan_term, @loan_request) %>
+        </div>
+      </div>
+
+      <div data-target="loan-request-form.step" class="hidden">
+        <div class="mb-4">
+          <label for="purchase_price" class="block text-sm font-medium text-gray-700">Purchase Price*</label>
+          <small>What are you purchasing the property for? Please include any assignment fee.</small>
+          <br>
+          <small>*Our sample term sheet will set a maximum loan-to-cost of 90%.</small>
+          <%= form.number_field :purchase_price, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true, min: '0' %>
+          <%= error_messages_for(:purchase_price, @loan_request) %>
+        </div>
+      </div>
+
+      <div data-target="loan-request-form.step" class="hidden">
+        <div class="mb-4">
+          <label for="repair_budget" class="block text-sm font-medium text-gray-700">Estimated Repair Budget*</label>
+          <small>Full budget expected to rehab the property.</small>
+          <%= form.number_field :repair_budget, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true, min: '0' %>
+          <%= error_messages_for(:repair_budget, @loan_request) %>
+        </div>
+      </div>
+
+      <div data-target="loan-request-form.step" class="hidden">
+        <div class="mb-4">
+          <label for="arv" class="block text-sm font-medium text-gray-700">After Repair Value*</label>
+          <small>What do you think the property's market value will be when you complete the rehab?</small>
+          <br>
+          <small>*Our sample term sheet will set a maximum loan-to-value of 70%</small>
+          <%= form.number_field :arv, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true, min: '0' %>
+          <%= error_messages_for(:arv, @loan_request) %>
+        </div>
+      </div>
+
+
+      <div data-target="loan-request-form.step" class="hidden">
+        <div class="mb-4">
+          <label for="first_name" class="block text-sm font-medium text-gray-700">First Name*</label>
+          <%= form.text_field :first_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <%= error_messages_for(:first_name, @loan_request) %>
+        </div>
+        <div class="mb-4">
+          <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name*</label>
+          <%= form.text_field :last_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <%= error_messages_for(:last_name, @loan_request) %>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
+          <%= form.email_field :email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <%= error_messages_for(:email, @loan_request) %>
+        </div>
+        <div class="mb-4">
+          <label for="phone" class="block text-sm font-medium text-gray-700">Phone*</label>
+          <%= form.telephone_field :phone, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <%= error_messages_for(:phone, @loan_request) %>
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-between">
+        <button data-action="loan-request-form#previousStep" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">Back</button>
+        <button data-action="loan-request-form#nextStep" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"><%= @loan_request.last_step? ? "Submit" : "Next" %></button>
+      </div>
+    </div>
       </div>
     <% end %>
   </div>
