@@ -1,0 +1,38 @@
+<% @title = "Loan Request Term Sheet" %>
+
+<div class="text-center mb-12">
+  <h1 class="text-4xl font-bold">Loan Request Term Sheet</h1>
+  <p class="text-lg">Longleaf Lending</p>
+</div>
+
+<div class="mb-8">
+  <h2 class="text-2xl font-semibold border-b pb-2">Loan Request Details</h2>
+  <p class="text-lg mt-4"><strong>Address:</strong> <%= loan_request.address %></p>
+  <p class="text-lg"><strong>Loan Term (months):</strong> <%= loan_request.loan_term %></p>
+  <p class="text-lg"><strong>Purchase Price:</strong> $<%= number_to_currency(loan_request.purchase_price, unit: '') %></p>
+  <p class="text-lg"><strong>Repair Budget:</strong> $<%= number_to_currency(loan_request.repair_budget, unit: '') %></p>
+  <p class="text-lg"><strong>After Repair Value (ARV):</strong> $<%= number_to_currency(loan_request.arv, unit: '') %></p>
+</div>
+
+<div class="mb-8">
+  <h2 class="text-2xl font-semibold border-b pb-2">Applicant Information</h2>
+  <p class="text-lg mt-4"><strong>Name:</strong> <%= loan_request.first_name + loan_request.last_name %></p>
+  <p class="text-lg"><strong>Email:</strong> <%= loan_request.email %></p>
+  <p class="text-lg"><strong>Phone:</strong> <%= loan_request.phone %></p>
+</div>
+
+<div class="mb-8">
+  <h2 class="text-2xl font-semibold border-b pb-2">Calculated Loan Details</h2>
+  <p class="text-lg mt-4"><strong>Max Fundable Amount:</strong> $<%= number_to_currency(loan_request.calculate_max_fundable_amount, unit: '') %></p>
+  <p class="text-lg"><strong>Total Interest Expense:</strong> $<%= number_to_currency(loan_request.calculate_interest_expense(loan_request.calculate_max_fundable_amount), unit: '') %></p>
+  <p class="text-lg"><strong>Estimated Profit:</strong> $<%= number_to_currency(loan_request.calculate_profit, unit: '') %></p>
+</div>
+
+<div class="mt-12 pt-6 border-t">
+  <h2 class="text-2xl font-semibold pb-2">Terms and Conditions</h2>
+  <p class="text-sm mt-4">1. The loan amount can only fund up to 90% of the purchase price.</p>
+  <p class="text-sm">2. The loan amount cannot exceed 70% of the after repair value (ARV).</p>
+  <p class="text-sm">3. Interest expense is calculated using a 13% annual rate, compounded monthly for the loan term specified.</p>
+  <p class="text-sm">4. The estimated profit is calculated as ARV minus total loan value minus total interest expense.</p>
+  <p class="text-sm">5. All values are estimates and subject to final approval.</p>
+</div>

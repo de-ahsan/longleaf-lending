@@ -15,7 +15,7 @@ class LoanRequest < ApplicationRecord
   validates :purchase_price, numericality: { only_integer: true, greater_than: 0, message: "must be a positive number" }, if: -> { on_step?('3') }
   validates :repair_budget, numericality: { only_integer: true, greater_than: 0, message: "must be a positive number" }, if: -> { on_step?('4') }
   validates :arv, numericality: { only_integer: true, greater_than: 0, message: "must be a positive number" }, if: -> { on_step?('5') }
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }, if: -> { on_step?('6') }
+  validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }, if: -> { on_step?('6') }
 
   def step_validations
     return unless current_step
@@ -46,6 +46,25 @@ class LoanRequest < ApplicationRecord
       self.current_step = step.to_s
       valid?
     end
+  end
+
+  def calculate_max_fundable_amount
+    max_purchase_price_loan = purchase_price * 0.9
+    max_arv_loan = arv * 0.7
+    [max_purchase_price_loan, max_arv_loan].min
+  end
+
+  def calculate_interest_expense(loan_amount)
+    monthly_interest_rate = 0.13 / 12
+    total_interest = loan_amount * monthly_interest_rate * loan_term
+    total_interest
+  end
+
+  def calculate_profit
+    loan_amount = calculate_max_fundable_amount
+    interest_expense = calculate_interest_expense(loan_amount)
+    profit = arv - loan_amount - interest_expense
+    profit
   end
 
   private
