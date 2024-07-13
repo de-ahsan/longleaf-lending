@@ -30,6 +30,8 @@ gem 'sidekiq'
 # Tailwind CSS for styling
 gem 'tailwindcss-rails'
 
+gem 'webpacker'
+
 # PDF generation
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
