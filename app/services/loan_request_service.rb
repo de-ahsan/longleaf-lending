@@ -17,6 +17,7 @@ class LoanRequestService
         loan_request.previous_step
       elsif loan_request.last_step?
         loan_request.save
+        LoanProcessorJob.perform_async(loan_request.id)
       else
         loan_request.next_step
       end

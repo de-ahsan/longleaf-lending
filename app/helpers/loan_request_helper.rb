@@ -31,4 +31,10 @@ module LoanRequestHelper
   def render_step_form(form, current_step)
     render partial: "loan_requests/steps/step#{current_step}", locals: { form: form }
   end
+
+  def error_messages_for(attribute, object)
+    if object.errors.has_key?(attribute)
+      content_tag(:p, object.errors[attribute].join(', '), class: 'text-red-500 text-xs')
+    end
+  end
 end

@@ -11,10 +11,10 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main class="container-fluid mx-auto px-5 flex flex-col">
 
     <% flash.each do |key, value| %>
-      <div class="mb-4 p-4 rounded shadow 
+      <div class="mb-4 p-4  w-80 rounded shadow
         <%= flash_class_for(key) %>">
         <%= value %>
       </div>
