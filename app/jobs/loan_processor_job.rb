@@ -18,7 +18,7 @@ class LoanProcessorJob
       ActionController::Base.new.render_to_string(
         template: 'loan_requests/termsheet.pdf.erb',
         layout: 'application',
-        locals: { loan_request: loan_request }
+        locals: { loan_request: }
       )
     )
   end

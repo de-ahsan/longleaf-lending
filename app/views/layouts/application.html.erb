@@ -13,14 +13,13 @@
 
   <body>
     <main class="container-fluid mx-auto px-5 flex flex-col">
-
-    <% flash.each do |key, value| %>
-      <div class="mb-4 p-4  w-80 rounded shadow
-        <%= flash_class_for(key) %>">
-        <%= value %>
+      <div class="container" data-controller="flash">
+        <% flash.each do |key, message| %>
+          <div class="flash <%= key %>">
+            <%= message %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-
       <%= yield %>
     </main>
   </body>

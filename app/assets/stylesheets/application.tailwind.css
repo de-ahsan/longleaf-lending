@@ -2,12 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
+.flash {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
 }
 
-*/
+.flash.notice {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.flash.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
