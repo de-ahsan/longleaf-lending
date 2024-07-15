@@ -1,24 +1,70 @@
-# README
+# Loan App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Loan App allows users to create loan requests and receive PDF reports directly via email.
 
-Things you may want to cover:
+## Features
+* Create loan requests in a multi step form
+* Get system generated PDF reports reflecting loan request details accordin to the terms and conditions of the comapny via emal
 
-* Ruby version
+## Prerequisites
+* Ensure you have the following system dependencies installed on your machine:
 
-* System dependencies
 
-* Configuration
+- Ruby version: `3.1.3`
+- Rails version: `6.1.0`
+- System dependencies:
+  - Ruby
+  - Rails
+  - Python
+  - Node.js
+  - Java
+  - Redis
 
-* Database creation
+## Installation and Setup
 
-* Database initialization
+### Clone the Repository
 
-* How to run the test suite
+```sh
+git clone https://github.com/de-ahsan/longleaf-lending.git
 
-* Services (job queues, cache servers, search engines, etc.)
+cd loan_app
+```
 
-* Deployment instructions
+### Database Setup
+* Create the database:
+```sh
+bundle exec rails db:create
+```
+* Run database migrations:
+```sh
+bundle exec rails db:migrate
+```
 
-* ...
+### Install Dependencies
+```sh
+bundle install
+```
+
+### Start Sidekiq
+* Ensure you have Redis running before starting Sidekiq to handle background jobs.
+```sh
+bundle exec sidekiq
+```
+
+### Start the Rails Server
+```sh
+rails server
+```
+
+or
+```sh
+./bin/dev
+```
+
+### Running Tests
+* To run the test suite, execute:
+
+```sh
+bundle exec rspec
+```
+
