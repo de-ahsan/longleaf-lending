@@ -42,25 +42,25 @@ module.exports = function(api) {
       isTestEnv && 'babel-plugin-dynamic-import-node',
       '@babel/plugin-transform-destructuring',
       [
-        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-transferl-class-properties',
         {
           loose: true
         }
       ],
       [
-        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-transferl-object-rest-spread',
         {
           useBuiltIns: true
         }
       ],
       [
-        '@babel/plugin-proposal-private-methods',
+        '@babel/plugin-transferl-private-methods',
         {
           loose: true
         }
       ],
       [
-        '@babel/plugin-proposal-private-property-in-object',
+        '@babel/plugin-transferl-private-property-in-object',
         {
           loose: true
         }

@@ -16,7 +16,7 @@ Loan App allows users to create loan requests and receive PDF reports directly v
   - Ruby
   - Rails
   - Python
-  - Node.js
+  - Node.js (`>= v.18`)
   - Java
   - Redis
 
@@ -27,7 +27,12 @@ Loan App allows users to create loan requests and receive PDF reports directly v
 ```sh
 git clone https://github.com/de-ahsan/longleaf-lending.git
 
-cd loan_app
+cd longleaf-lending
+```
+
+### Install Dependencies
+```sh
+bundle install
 ```
 
 ### Database Setup
@@ -40,13 +45,8 @@ bundle exec rails db:create
 bundle exec rails db:migrate
 ```
 
-### Install Dependencies
-```sh
-bundle install
-```
-
 ### Start Sidekiq
-* Ensure you have Redis running before starting Sidekiq to handle background jobs.
+* Ensure you have Redis and Sidekiq running before starting the app.
 ```sh
 bundle exec sidekiq
 ```
@@ -67,4 +67,21 @@ or
 ```sh
 bundle exec rspec
 ```
+## In case of asset pipeline or JS errors
+* ensure your node version is at least v.18
+* install webpack(er) if not already (do not replace the already generated babel config file)
+`RAILS_ENV=development bundle exec rails webpacker:install`
+* You may need to precompile the assets after upgrading any conflicting dependencies.
+```sh
+$ rm -rf node_modules yarn.lock
+$ yarn install
+$ yarn upgrade
+$ rails assets:precompile
+```
+in some cases you may need to also run these
+```sh
+$ RAILS_ENV=development bundle exec rails webpacker:install
 
+$ bin/webpack-dev-server
+```
+And lastly run the server again `rails server`.
